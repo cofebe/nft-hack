@@ -4,52 +4,73 @@ import {
   Button,
   Typography,
 } from '@mui/material';
+import './Stream.css';
 import { Client, isSupported } from '@livepeer/webrtmp-sdk';
 
 if (!isSupported()) {
   alert('webrtmp-sdk is not currently supported on this browser');
 }
 
-const client = new Client();
-
-// start streaming to livepeer
-const startStream = async () => {
-  const streamKey = '3fc3-4kb3-1oyi-9564';
-
-  const stream = await navigator.mediaDevices.getUserMedia({
-    video: true,
-    audio: true
-  });
-
-  const session = client.cast(stream, streamKey);
-
-  session.on('open', () => {
-    console.log('Stream started.');
-  });
-
-  session.on('close', () => {
-    console.log('Stream stopped.');
-  });
-
-  session.on('error', (err) => {
-    console.log('Stream error.', err.message);
-  });
-};
-
-
 function Stream({ setMode, }) {
+  const [client, setClient] = useState();
+  const [session, setSession] = useState();
 
   useEffect(() => {
-
+    const newClient = new Client();
+    setClient(newClient);
   }, []);
 
+  // start streaming to livepeer
+  const startStream = async () => {
+    console.log('>>>>>>>>');
+    const streamKey = '26ca-kwqh-u71w-1e4u';
+
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: true
+    });
+
+    const session = client.cast(stream, streamKey);
+
+    session.on('open', () => {
+      console.log('Stream started.');
+    });
+
+    session.on('close', () => {
+      console.log('Stream stopped.');
+    });
+
+    session.on('error', (err) => {
+      console.log('Stream error.', err.message);
+    });
+    console.log('session', session);
+    return session;
+  };
+
   return (
-    <div className="stream">
+    <div className='root'>
+      <Typography>Stream</Typography>
 
       <Button
         variant='contained'
-        onClick={() => startStream()}
+        onClick={async () => {
+          const newSession = await startStream();
+          setSession(newSession);
+        }}
       >Start Stream</Button>
+
+      <Button
+        variant='contained'
+        onClick={() => {
+          try {
+            session.close();
+            console.log('stream session ended');
+          } catch (e) {
+            console.log(`error while closing stream session\n${e.stack}`);
+          }
+          setMode('home');
+        }}
+      >End Stream</Button>
 
       {/* <video data-setup='{}'>
         <source src="https://cdn.livepeer.com/hls/3fc3wygcixo3kwps/index.m3u8" type="application/x-mpegURL"/>

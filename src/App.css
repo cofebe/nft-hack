@@ -50,3 +50,7 @@
   position: absolute;
   left: 5em;
 }
+
+.button {
+  z-index: 1000000;
+}

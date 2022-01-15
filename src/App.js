@@ -28,7 +28,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log('mode', mode);
+    console.log('mode set to: ' + mode);
   }, [mode]);
 
   useEffect(() => {
@@ -65,25 +65,28 @@ function App() {
           NFT HACK
         </p>
         {/* <video  src="https://cdn.livepeer.com/hls/3fc3wygcixo3kwps/index.m3u8" controls autoplay></video> */}
+
+        <div className='button'>
+          {mode === 'home' &&
+            <Button
+              variant='contained'
+              onClick={() => {
+                setMode('stream');
+              }}
+            >Open Stream</Button>
+          }
+        </div>
+
+        <div>
+          {mode === 'stream' &&
+            <Stream
+              setMode={setMode}
+            />
+          }
+        </div>
+
       </header>
-
-      {mode === 'home' &&
-        <Button
-          variant='contained'
-          onClick={() => {
-            setMode('stream');
-            console.log('setting mode to stream');
-          }}
-        >Start Stream</Button>
-      }
-
-      <div>
-        {mode === 'stream' &&
-          <Stream
-            setMode={setMode}
-          />
-        }
-      </div>
+      
 
       <video data-setup='{}'>
         <source src={streamPlaybackUrl} type="application/x-mpegURL"/>
