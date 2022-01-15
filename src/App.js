@@ -3,11 +3,15 @@ import videojs from 'video.js'
 import './App.css';
 import React, { useState } from 'react';
 import ERC721Contract from './libs/ERC721Contract.js';
+import { ethers } from 'ethers';
 
 function App() {
+  const provider = new ethers.providers.Web3Provider(window.ethereum)
+  const signer = provider.getSigner()
+  console.log('signer: ', signer)
   function onStreamNow(num){
-    const contract = ERC721Contract({contractAddress: '0x700433206Dc6979784c4bdeb8c4C91FFB745E8b7', loginProvider: ''});
-    console.log('this is:', num);
+    const contract = ERC721Contract({contractAddress: '0x700433206Dc6979784c4bdeb8c4C91FFB745E8b7', loginProvider: signer});
+    console.log('this is:', contract);
   }
   const [users, setUsers] = useState([
     { id: 1, firstName: 'Frank', lastName: 'Murphy', email: 'frank.murphy@test.com', role: 'User' },
