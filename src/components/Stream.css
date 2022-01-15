@@ -4,3 +4,7 @@
   margin: 0;
   height: 100%;
 }
+
+#streamPreview {
+  height: 100%;
+}

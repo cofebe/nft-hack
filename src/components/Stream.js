@@ -21,6 +21,19 @@ function Stream({ setMode, }) {
     const newClient = new Client();
     setClient(newClient);
     registerStream();
+
+    // setup browser preview
+    if (navigator.mediaDevices.getUserMedia) {
+      console.log('getUserMedia');
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          var video = document.querySelector('#streamPreview');
+          video.srcObject = stream;
+        })
+        .catch(err => {
+          console.log(`Error getting local preview:\n${err}`);
+        });
+    }
   }, []);
 
   // register a new stream
@@ -31,6 +44,7 @@ function Stream({ setMode, }) {
       method: 'get',
       url: 'http://localhost:3004',
       data: {
+        // @todo allow user to set stream name
         name: 'test_stream',
       }
     })
@@ -51,7 +65,7 @@ function Stream({ setMode, }) {
 
     const stream = await navigator.mediaDevices.getUserMedia({
       video: true,
-      audio: true
+      audio: true,
     });
 
     const session = client.cast(stream, streamKey);
@@ -96,9 +110,10 @@ function Stream({ setMode, }) {
         }}
       >End Stream</Button>
 
-      {/* <video data-setup='{}'>
-        <source src="https://cdn.livepeer.com/hls/3fc3wygcixo3kwps/index.m3u8" type="application/x-mpegURL"/>
-      </video> */}
+      
+      <video id='streamPreview' className='streamPreview' autoplay='true'>
+        {/* <source srcObject={localStream} type="application/x-mpegURL"/> */}
+      </video>
 
 
     </div>
