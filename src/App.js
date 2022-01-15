@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ethers } from 'ethers';
+import ERC721Contract from './libs/ERC721Contract';
 import {
   TextField,
   Grid,
@@ -22,7 +22,7 @@ const streamPlaybackUrl = 'https://cdn.livepeer.com/hls/26cafzyg7i8yhgb5/index.m
 function App() {
   const { loginProvider, signer, address, account, accounts, connect, isConnected, balances: coinBalances, network, networkType, networkId, getNetwork } = useWallet();
   const [mode, setMode] = useState('home');
-
+  
   useEffect(() => {
 
   }, []);
@@ -61,7 +61,7 @@ function App() {
       <header className="App-header">
         {networkInfoBox()}
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
+        <p className="title">
           NFT HACK
         </p>
         {/* <video  src="https://cdn.livepeer.com/hls/3fc3wygcixo3kwps/index.m3u8" controls autoplay></video> */}
@@ -92,6 +92,8 @@ function App() {
         <source src={streamPlaybackUrl} type="application/x-mpegURL"/>
       </video>
     </div>
+    
+    
   );
 };
 
