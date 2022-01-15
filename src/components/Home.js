@@ -10,7 +10,7 @@ function Home({ setMode, }) {
   return (
 
     <div className="contianer">
-      <Grid containe>
+      <Grid container>
         <ImageList>
           {itemData.map((item) => (
             <Grid item xs={12}>
