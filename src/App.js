@@ -24,7 +24,9 @@ function App() {
   const [mode, setMode] = useState('home');
   useEffect(() => {
     console.log('address: ', address)
-    const contract = ERC721Contract({contractAddress: address, loginProvider: signer})
+    if (address) {
+      const contract = ERC721Contract({contractAddress: address, loginProvider: signer})
+    }
   }, [address]);
 
   useEffect(() => {
