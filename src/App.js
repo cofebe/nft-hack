@@ -1,4 +1,5 @@
 import logo from './eth-diamond-rainbow.png';
+import videojs from 'video.js'
 import './App.css';
 
 function App() {
@@ -10,6 +11,10 @@ function App() {
           NFT HACK
         </p>
       </header>
+
+      <video data-setup='{}'>
+        <source src="https://cdn.livepeer.com/hls/3fc3wygcixo3kwps/index.m3u8" type="application/x-mpegURL"/>
+      </video>
     </div>
   );
 }
