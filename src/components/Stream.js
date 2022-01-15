@@ -1,3 +1,5 @@
+import axios from 'axios';
+import config from '../config';
 import { useEffect, useState } from 'react';
 import videojs from 'video.js';
 import {
@@ -18,7 +20,29 @@ function Stream({ setMode, }) {
   useEffect(() => {
     const newClient = new Client();
     setClient(newClient);
+    registerStream();
   }, []);
+
+  // register a new stream
+  const registerStream = async () => {
+    console.log("Here")
+    console.log("Config: ", config)
+    axios({
+      method: 'get',
+      url: 'http://localhost:3004',
+      data: {
+        name: 'test_stream',
+      }
+    })
+      .then(function (response) {
+        console.log(response)
+      })
+      .catch(function (error) {
+        console.log(error.toJSON());
+      })
+  }
+  // adding url to contract
+    // use wallet to gain signer
 
   // start streaming to livepeer
   const startStream = async () => {

@@ -5,33 +5,65 @@ import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
+import { Typography } from '@mui/material';
 
 function Home({ setMode, }) {
   return (
 
     <div className="contianer">
-      <Grid container>
-        <ImageList>
-          {itemData.map((item) => (
-            <Grid item xs={12}>
-              <ImageListItem key={item.img}>
-                <img
-                  src={`${item.img}?w=248&fit=crop&auto=format`}
-                  srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                  alt={item.title}
-                  loading="lazy"
-                />
-                <ImageListItemBar
-                  title={item.title}
-                  subtitle={<span>by: {item.author}</span>}
-                  position="below"
-                />
-              </ImageListItem>
-            </Grid>
-          ))}
-        </ImageList>
-      </Grid>
+      <Grid container
+        direction='row'
+        spacing={2}
+      >
+        {/* LEFT */}
+        <Grid item
+          sm={2}
+        >
+          {/* <Typography>LEFT</Typography> */}
+        </Grid>
 
+        {/* CENTER */}
+        <Grid container item
+          sm={8}
+        >
+          <Grid item
+            sm={12}
+          >
+            <Typography>TITLE</Typography>
+          </Grid>
+          <Grid item
+            sm={12}
+          >
+            <ImageList>
+              {itemData.map((item) => (
+                <Grid item xs={12}>
+                  <ImageListItem key={item.img}>
+                    <img
+                      src={`${item.img}?w=248&fit=crop&auto=format`}
+                      srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                      alt={item.title}
+                      loading="lazy"
+                    />
+                    <ImageListItemBar
+                      title={item.title}
+                      subtitle={<span>by: {item.author}</span>}
+                      position="below"
+                    />
+                  </ImageListItem>
+                </Grid>
+              ))}
+            </ImageList>
+          </Grid>
+        </Grid>
+        
+        {/* RIGHT */}
+        <Grid item
+          sm={2}
+        >
+          {/* <Typography>RIGHT</Typography> */}
+        </Grid>
+
+      </Grid>
     </div>
   );
 }

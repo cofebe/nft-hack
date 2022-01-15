@@ -1,3 +1,8 @@
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
 .App {
   text-align: center;
 }
@@ -44,6 +49,7 @@
   background: #00022e;
   height: 60px;
   color: #fc86aa;
+  top: 60px;
 }
 
 .title {
