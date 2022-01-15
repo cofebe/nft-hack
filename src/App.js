@@ -1,41 +1,15 @@
 import { useEffect, useState } from 'react';
-import logo from './eth-diamond-rainbow.png';
 import videojs from 'video.js'
 import './App.css';
 import {
   Button,
   Typography,
 } from '@mui/material';
-import { Client, isSupported } from '@livepeer/webrtmp-sdk';
+// import { Client, isSupported } from '@livepeer/webrtmp-sdk';
+import logo from './eth-diamond-rainbow.png';
+import Stream from './components/Stream.js';
 
-if (!isSupported()) {
-  alert('webrtmp-sdk is not currently supported on this browser');
-}
-
-const client = new Client();
-
-async function start() {
-  const streamKey = '3fc3-4kb3-1oyi-9564';
-
-  const stream = await navigator.mediaDevices.getUserMedia({
-    video: true,
-    audio: true
-  });
-
-  const session = client.cast(stream, streamKey);
-
-  session.on('open', () => {
-    console.log('Stream started.');
-  });
-
-  session.on('close', () => {
-    console.log('Stream stopped.');
-  });
-
-  session.on('error', (err) => {
-    console.log('Stream error.', err.message);
-  });
-}
+const streamPlaybackUrl = 'https://cdn.livepeer.com/hls/26cafzyg7i8yhgb5/index.m3u8';
 
 // start streaming to livepeer
 // start();
@@ -46,6 +20,10 @@ function App() {
   useEffect(() => {
 
   }, []);
+
+  useEffect(() => {
+    console.log('mode', mode);
+  }, [mode]);
 
   return (
     <div className="App">
@@ -60,18 +38,23 @@ function App() {
       {mode === 'home' &&
         <Button
           variant='contained'
-          onClick={() => setMode('stream')}
+          onClick={() => {
+            setMode('stream');
+            console.log('setting mode to stream');
+          }}
         >Start Stream</Button>
       }
 
       <div>
         {mode === 'stream' &&
-          <div>Start Stream</div>
+          <Stream
+            setMode={setMode}
+          />
         }
       </div>
 
       <video data-setup='{}'>
-        <source src="https://cdn.livepeer.com/hls/3fc3wygcixo3kwps/index.m3u8" type="application/x-mpegURL"/>
+        <source src={streamPlaybackUrl} type="application/x-mpegURL"/>
       </video>
 
 
