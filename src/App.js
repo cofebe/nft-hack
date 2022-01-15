@@ -61,14 +61,21 @@ function App() {
         sm={12}
         className='networkInfoBox'
         justifyContent='center'
-        direction='column'
+        // direction='column'
+        // spacing={6}
       >
         <Typography>Connected: {isConnected ? 'yes' : 'no'}</Typography>
-        <Typography>Address: {address}</Typography>
-        <Typography>Network: {network?.name} ({networkId})</Typography>
+        <Typography>| Address: {shortAddress(address)}</Typography>
+        <Typography>| Network: {network?.name} ({networkId})</Typography>
       </Grid>
     );
   };
+
+  const shortAddress = address => {
+    return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
+  };
+
+  if (!address) return <></>;
 
   return (
     <div className="App">
@@ -77,41 +84,44 @@ function App() {
         <p className="title">
           NFT HACK
         </p>
-      </header>
-      <div>
         {networkInfoBox()}
-        {/* <video  src="https://cdn.livepeer.com/hls/3fc3wygcixo3kwps/index.m3u8" controls autoplay></video> */}
+          {/* <video  src="https://cdn.livepeer.com/hls/3fc3wygcixo3kwps/index.m3u8" controls autoplay></video> */}
 
-        <div className='button'>
+          <div className='button'>
+            {mode === 'home' &&
+              <Button
+                variant='contained'
+                onClick={() => {
+                  setMode('stream');
+                }}
+              >Open Stream</Button>
+            }
+          </div>
+      </header>
+      
+        <div>
+          <div>
           {mode === 'home' &&
-            <Button
-              variant='contained'
-              onClick={() => {
-                setMode('stream');
-              }}
-            >Open Stream</Button>
-          }
-        </div>
-        <div>
-        {mode === 'home' &&
-            <Home
-              setMode={setMode}
-            />
-          }
+              <Home
+                setMode={setMode}
+              />
+            }
+          </div>
+
+          <div>
+            {mode === 'stream' &&
+              <Stream
+                setMode={setMode}
+              />
+            }
+          </div>
         </div>
 
-        <div>
-          {mode === 'stream' &&
-            <Stream
-              setMode={setMode}
-            />
-          }
-        </div>
-      </div>
+      
 
-      <video data-setup='{}'>
+      {/* <video data-setup='{}'>
         <source src={streamPlaybackUrl} type="application/x-mpegURL"/>
-      </video>
+      </video> */}
     </div>
     
     
