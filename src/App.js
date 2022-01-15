@@ -10,24 +10,34 @@ import videojs from 'video.js';
 import { useWallet } from './providers/WalletProvider.js';
 
 import './App.css';
-// import { Client, isSupported } from '@livepeer/webrtmp-sdk';
 import logo from './eth-diamond-rainbow.png';
 import Stream from './components/Stream.js';
+import { getOwnerNfts } from './libs/util.js';
 
 const streamPlaybackUrl = 'https://cdn.livepeer.com/hls/26cafzyg7i8yhgb5/index.m3u8';
 
-// start streaming to livepeer
-// start();
 
 function App() {
   const { loginProvider, signer, address, account, accounts, connect, isConnected, balances: coinBalances, network, networkType, networkId, getNetwork } = useWallet();
   const [mode, setMode] = useState('home');
+
   useEffect(() => {
+    if (!address || !signer) return;
     console.log('address: ', address)
-    if (address) {
-      const contract = ERC721Contract({contractAddress: address, loginProvider: signer})
-    }
-  }, [address]);
+    const init = async () => {
+      const contractAddress = '0x700433206Dc6979784c4bdeb8c4C91FFB745E8b7';
+      console.log(1);
+      const contract = ERC721Contract({ contractAddress, loginProvider: signer });
+      console.log(2);
+      const result = await contract.balanceOf(address);
+      console.log('result', result);
+      // const result = await contract.ownerOf(0);
+      // const result = await contract._holderTokens(address);
+      const ownedIds = await getOwnerNfts(contractAddress, address, signer);
+      console.log('ownedIds', ownedIds);
+    };
+    init();
+  }, [address, signer]);
 
   useEffect(() => {
     console.log('mode set to: ' + mode);
