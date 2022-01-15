@@ -22,12 +22,10 @@ const streamPlaybackUrl = 'https://cdn.livepeer.com/hls/26cafzyg7i8yhgb5/index.m
 function App() {
   const { loginProvider, signer, address, account, accounts, connect, isConnected, balances: coinBalances, network, networkType, networkId, getNetwork } = useWallet();
   const [mode, setMode] = useState('home');
-
-  const contract = ERC721Contract({contractAddress: address, loginProvider: signer})
-  console.log(contract)
   useEffect(() => {
-
-  }, []);
+    console.log('address: ', address)
+    const contract = ERC721Contract({contractAddress: address, loginProvider: signer})
+  }, [address]);
 
   useEffect(() => {
     console.log('mode set to: ' + mode);
