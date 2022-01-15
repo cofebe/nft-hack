@@ -13,11 +13,13 @@ import './App.css';
 import logo from './eth-diamond-rainbow.png';
 import Stream from './components/Stream.js';
 import { getOwnerNfts } from './libs/util.js';
+import Home from './components/Home';
 
 const streamPlaybackUrl = 'https://cdn.livepeer.com/hls/26cafzyg7i8yhgb5/index.m3u8';
 
 
 function App() {
+  const contractAddress = '0x700433206Dc6979784c4bdeb8c4C91FFB745E8b7'
   const { loginProvider, signer, address, account, accounts, connect, isConnected, balances: coinBalances, network, networkType, networkId, getNetwork } = useWallet();
   const [mode, setMode] = useState('home');
 
@@ -71,11 +73,13 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {networkInfoBox()}
         <img src={logo} className="App-logo" alt="logo" />
         <p className="title">
           NFT HACK
         </p>
+      </header>
+      <div>
+        {networkInfoBox()}
         {/* <video  src="https://cdn.livepeer.com/hls/3fc3wygcixo3kwps/index.m3u8" controls autoplay></video> */}
 
         <div className='button'>
@@ -88,6 +92,13 @@ function App() {
             >Open Stream</Button>
           }
         </div>
+        <div>
+        {mode === 'home' &&
+            <Home
+              setMode={setMode}
+            />
+          }
+        </div>
 
         <div>
           {mode === 'stream' &&
@@ -96,9 +107,7 @@ function App() {
             />
           }
         </div>
-
-      </header>
-      
+      </div>
 
       <video data-setup='{}'>
         <source src={streamPlaybackUrl} type="application/x-mpegURL"/>
