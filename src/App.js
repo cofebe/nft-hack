@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ethers } from 'ethers';
+import ERC721Contract from './libs/ERC721Contract';
 import {
   TextField,
   Grid,
@@ -22,15 +22,7 @@ const streamPlaybackUrl = 'https://cdn.livepeer.com/hls/26cafzyg7i8yhgb5/index.m
 function App() {
   const { loginProvider, signer, address, account, accounts, connect, isConnected, balances: coinBalances, network, networkType, networkId, getNetwork } = useWallet();
   const [mode, setMode] = useState('home');
-  console.log('signer: ', signer)
-  function onStreamNow(num){
-    const contract = ERC721Contract({contractAddress: '0x700433206Dc6979784c4bdeb8c4C91FFB745E8b7', loginProvider: signer});
-    console.log('this is:', contract);
-  }
-  const [users, setUsers] = useState([
-    { id: 1, firstName: 'Frank', lastName: 'Murphy', email: 'frank.murphy@test.com', role: 'User' },
-  ]);
-
+  
   useEffect(() => {
 
   }, []);
@@ -96,24 +88,6 @@ function App() {
       <video data-setup='{}'>
         <source src={streamPlaybackUrl} type="application/x-mpegURL"/>
       </video>
-
-      <div className="container">
-            <h3 className="">Streaming Now</h3>
-            <table className="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {users && users.map(user =>
-                        <tr key={user.id}>
-                            <td><button onClick={onStreamNow('0xfDCf84cD2d994d44f7b7854Db9aDD10A936aaC9A')}>StreamNow</button></td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
-        </div>
     </div>
     
     
