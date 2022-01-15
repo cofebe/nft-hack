@@ -137,5 +137,8 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "hardhat": "^2.8.2"
   }
 }

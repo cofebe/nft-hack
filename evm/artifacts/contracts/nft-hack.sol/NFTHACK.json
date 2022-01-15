@@ -1,0 +1,16 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "NFTHACK",
+  "sourceName": "contracts/nft-hack.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    }
+  ],
+  "bytecode": "0x6080604052348015600f57600080fd5b50336000806101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550603f80605d6000396000f3fe6080604052600080fdfea264697066735822122022af117f0144cbb1a760f3c83154a1d8ef707ce83e30e7c44d018daab09b3b5d64736f6c63430008030033",
+  "deployedBytecode": "0x6080604052600080fdfea264697066735822122022af117f0144cbb1a760f3c83154a1d8ef707ce83e30e7c44d018daab09b3b5d64736f6c63430008030033",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
