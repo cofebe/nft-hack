@@ -1,21 +1,46 @@
 import logo from './eth-diamond-rainbow.png';
 import videojs from 'video.js'
 import './App.css';
+import React, { useState } from 'react';
+import ERC721Contract from './libs/ERC721Contract.js';
 
 function App() {
+  function onStreamNow(num){
+    const contract = ERC721Contract({contractAddress: '0x700433206Dc6979784c4bdeb8c4C91FFB745E8b7', loginProvider: ''});
+    console.log('this is:', num);
+  }
+  const [users, setUsers] = useState([
+    { id: 1, firstName: 'Frank', lastName: 'Murphy', email: 'frank.murphy@test.com', role: 'User' },
+  ]);
+
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
+        <p className="title">
           NFT HACK
         </p>
       </header>
 
-      <video data-setup='{}'>
-        <source src="https://cdn.livepeer.com/hls/3fc3wygcixo3kwps/index.m3u8" type="application/x-mpegURL"/>
-      </video>
+      <div className="container">
+            <h3 className="">Streaming Now</h3>
+            <table className="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {users && users.map(user =>
+                        <tr key={user.id}>
+                            <td><button onClick={onStreamNow('0xfDCf84cD2d994d44f7b7854Db9aDD10A936aaC9A')}>StreamNow</button></td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+        </div>
     </div>
+    
   );
 }
 
