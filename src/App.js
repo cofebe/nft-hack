@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import logo from './eth-diamond-rainbow.png';
+import videojs from 'video.js'
 import './App.css';
 import { Client, isSupported } from '@livepeer/webrtmp-sdk';
 
@@ -50,6 +51,10 @@ function App() {
         </p>
         {/* <video  src="https://cdn.livepeer.com/hls/3fc3wygcixo3kwps/index.m3u8" controls autoplay></video> */}
       </header>
+
+      <video data-setup='{}'>
+        <source src="https://cdn.livepeer.com/hls/3fc3wygcixo3kwps/index.m3u8" type="application/x-mpegURL"/>
+      </video>
     </div>
   );
 }
