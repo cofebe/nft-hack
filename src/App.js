@@ -19,9 +19,10 @@ const streamPlaybackUrl = 'https://cdn.livepeer.com/hls/26cafzyg7i8yhgb5/index.m
 
 
 function App() {
-  const contractAddress = '0x700433206Dc6979784c4bdeb8c4C91FFB745E8b7'
   const { loginProvider, signer, address, account, accounts, connect, isConnected, balances: coinBalances, network, networkType, networkId, getNetwork } = useWallet();
   const [mode, setMode] = useState('home');
+  const REQUIREDNFTIDs = ['1', '2'];
+  
 
   useEffect(() => {
     if (!address || !signer) return;
@@ -31,12 +32,7 @@ function App() {
       console.log(1);
       const contract = ERC721Contract({ contractAddress, loginProvider: signer });
       console.log(2);
-      const result = await contract.balanceOf(address);
-      console.log('result', result);
-      // const result = await contract.ownerOf(0);
-      // const result = await contract._holderTokens(address);
-      const ownedIds = await getOwnerNfts(contractAddress, address, signer);
-      console.log('ownedIds', ownedIds);
+      await checkAccess()
     };
     init();
   }, [address, signer]);
@@ -54,6 +50,47 @@ function App() {
     if (!accounts?.length) return;
     console.log('accounts set!', accounts[0]);
   }, [accounts]);
+
+  async function checkAccess() {
+    console.log('calling checkAccess');
+    const etheaddress = '0xfDCf84cD2d994d44f7b7854Db9aDD10A936aaC9A';
+    const response = fetch('https://api.covalenthq.com/v1/80001/address/' + etheaddress + '/balances_v2/?quote-currency=USD&format=JSON&nft=true&key=ckey_200682d8e34b495f9557869dacd');
+    response.then((r) => {
+      r.json().then((j) => {
+        const items = j["data"]["items"];
+        const nftItemsOnly = getNftItemsOnly(items);
+        const tokensOnly = getNftTokenIds(nftItemsOnly);
+        console.log('tokensOnly', tokensOnly);
+        console.log('is allowed access: ', isAccessAllowed(tokensOnly));
+        
+      }, (err) => {
+        console.log('err: ', err);
+      });
+    }, (err) => {
+      console.log('err: ', err);
+    })
+  }
+
+  function getNftItemsOnly(items) {
+    return items.filter((item) => {
+      return item["type"] === "nft";
+    });
+  }
+
+  function getNftTokenIds(items) {
+    let tokens = [];
+    items.forEach(element => {
+      const t = element["nft_data"].map(function(item) {return item["token_id"]});
+      tokens = tokens.concat(t);
+    });
+
+    return tokens;
+  }
+
+  function isAccessAllowed(ownedTokens) {
+    const commonTokens = ownedTokens.filter(ownedToken => REQUIREDNFTIDs.includes(ownedToken));
+    return commonTokens.length > 0;
+  }
 
   const networkInfoBox = () => {
     return (
