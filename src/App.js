@@ -78,7 +78,7 @@ function App() {
   if (!address) return <></>;
 
   return (
-    <div className="App">
+    <>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p className="title">
@@ -99,30 +99,24 @@ function App() {
           </div>
       </header>
       
-        <div>
-          <div>
-          {mode === 'home' &&
-              <Home
-                setMode={setMode}
-              />
-            }
-          </div>
+      {mode === 'home' &&
+        <Home
+          setMode={setMode}
+        />
+      }
 
-          <div>
-            {mode === 'stream' &&
-              <Stream
-                setMode={setMode}
-              />
-            }
-          </div>
-        </div>
+      {mode === 'stream' &&
+        <Stream
+          setMode={setMode}
+        />
+      }
 
       
 
       {/* <video data-setup='{}'>
         <source src={streamPlaybackUrl} type="application/x-mpegURL"/>
       </video> */}
-    </div>
+    </>
     
     
   );
