@@ -137,7 +137,8 @@ function Home({ setMode, streamData, setWatchUrl, }) {
                   <div>
                     {item.url}
                   </div>
-                  <Button variant='contained'
+                  <Button variant='contained' 
+                    disabled={item.isLocked}
                 // className='createStreamButton'
                 onClick={() => {
                   setWatchUrl(item.url);
