@@ -38,9 +38,10 @@ function App() {
       await getStreamCollection(listOfStreams);
       console.log('streamCollection', streamCollection);
       const interval = setInterval(async () => {
+        console.log('run interval check');
         await getStreamCollection(listOfStreams);
         console.log('mappedStreams: ', streamCollection);
-      }, 300000);
+      }, 120000);
       return () => clearInterval(interval);
     };
     init();
@@ -77,7 +78,9 @@ function App() {
       newStream["stream"] = streams[i];
       newStream['isLocked'] = true;
       newStream['url'] = streams[i]["url"];
-      if (personalNftAddresses.indexOf(streams[i]["requiredCollection"]) > -1) {
+      console.log('personal Address', personalNftAddresses);
+      console.log('streams[i]', streams[i]["requiredCollection"].toLowerCase());
+      if (personalNftAddresses.indexOf(streams[i]["requiredCollection"].toLowerCase()) > -1) {
         newStream['isLocked'] = false;
       }
       mappedStreams.push(newStream);
