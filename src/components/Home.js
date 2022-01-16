@@ -54,6 +54,29 @@ function Home({ setMode, streamData, setWatchUrl, }) {
           <Grid item
             sm={12}
           >
+
+          <div style={{ backgroundColor: '#d13da5' }}>
+            <div>
+              <img style={{ paddingTop: '10px', paddingLeft: '10px' }} width="50px;" src='https://lh3.googleusercontent.com/QHq_GOx-FBJ1HkAUuZ-RxaYDpbr4udl67kjRYvOKo3BkHn74SOi3goDuMR3199XwAmT3cdGciyH_WT5KmW57hCeBaw75T9KaChnuTBE=s120' />;
+              <img style={{ padding: 'auto' }} width="50px;" src='https://lh3.googleusercontent.com/QHq_GOx-FBJ1HkAUuZ-RxaYDpbr4udl67kjRYvOKo3BkHn74SOi3goDuMR3199XwAmT3cdGciyH_WT5KmW57hCeBaw75T9KaChnuTBE=s120' />;
+              <img style={{ padding: 'auto' }} width="50px;" src='https://lh3.googleusercontent.com/QHq_GOx-FBJ1HkAUuZ-RxaYDpbr4udl67kjRYvOKo3BkHn74SOi3goDuMR3199XwAmT3cdGciyH_WT5KmW57hCeBaw75T9KaChnuTBE=s120' />;
+              <img style={{ padding: 'auto' }} width="50px;" src='https://lh3.googleusercontent.com/QHq_GOx-FBJ1HkAUuZ-RxaYDpbr4udl67kjRYvOKo3BkHn74SOi3goDuMR3199XwAmT3cdGciyH_WT5KmW57hCeBaw75T9KaChnuTBE=s120' />;
+
+              <button
+                style={{ backgroundColor: '#2666c7', float: 'right', textAlign: 'right' }}
+                onClick={() => {
+                   window.open('https://opensea.io/assets/0x495f947276749ce646f68ac8c248420045cb7b5e/74661804639461098708131462223609063755981185112722833040679211593380806000641', '_blank');
+                }}>
+                <p>Buy Now On</p>
+                <img
+                  style={{ marginTop: '10px', marginLeft: '10px' }}
+                  width="75px"
+                  src='https://storage.googleapis.com/opensea-static/Logomark/OpenSea-Full-Logo%20(dark).svg' />
+              </button>
+            </div>
+
+          </div>
+
             <Grid container>
               {streamData.map((item, i) => (
                 <Grid item key={i} xs={12}>
