@@ -49,7 +49,7 @@ function Watch({ setMode, watchUrl }) {
         // controls
         controlBar={false}
         preload="auto"
-        poster="//vjs.zencdn.net/v/oceans.png"
+        // poster="//vjs.zencdn.net/v/oceans.png"
         data-setup='{}'
       >
         <source src={watchUrl} type="application/x-mpegURL" />
