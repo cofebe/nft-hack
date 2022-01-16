@@ -200,7 +200,7 @@ const { loginProvider, signer, address, account, accounts, connect, isConnected,
           <Button
             variant='contained'
             className='endStreamButton'
-            disabled={!isActive}
+            disabled={isActive}
             onClick={async () => {
               try {
                 await session.close();
@@ -210,7 +210,7 @@ const { loginProvider, signer, address, account, accounts, connect, isConnected,
               }
               setMode('home');
             }}
-          >End Stream</Button>
+          >{isActive ? 'End Stream' : 'Close'}</Button>
         </Grid>
         <Grid item
           sm={2}

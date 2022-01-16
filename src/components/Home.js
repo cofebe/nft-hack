@@ -32,7 +32,7 @@ function Home({ setMode, streamData, }) {
           sm={8}
           className='centerContent'
           padding={2}
-          
+
         >
           <Grid container item
             sm={12}
@@ -55,8 +55,8 @@ function Home({ setMode, streamData, }) {
             sm={12}
           >
             <ImageList>
-              {itemData.map((item) => (
-                <Grid item xs={12}>
+              {itemData.map((item, i) => (
+                <Grid item key={i} xs={12}>
                   <ImageListItem key={item.img}>
                     <img
                       src={`${item.img}?w=248&fit=crop&auto=format`}

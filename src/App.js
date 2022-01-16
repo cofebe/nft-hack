@@ -22,7 +22,7 @@ const streamPlaybackUrl = 'https://cdn.livepeer.com/hls/26cafzyg7i8yhgb5/index.m
 function App() {
   const { loginProvider, signer, address, account, accounts, connect, isConnected, balances: coinBalances, network, networkType, networkId, getNetwork } = useWallet();
   const [mode, setMode] = useState('home');
-  let [streamCollection] = useState([]);
+  const [streamCollection, setStreamCollection] = useState([]);
   const contractAddress = '0x700433206Dc6979784c4bdeb8c4C91FFB745E8b7';
   // let streamCollection = null;
   useEffect(() => {
@@ -109,10 +109,6 @@ function App() {
     return addresses;
   }
 
-  function setStreamCollection(collection) {
-    streamCollection = collection;
-  }
-
   const networkInfoBox = () => {
     return (
       <Grid container item
@@ -178,12 +174,6 @@ function App() {
           watchUrl={'https://cdn.livepeer.com/hls/e673nk1hjtdheb8m/index.m3u8'}
         />
       }
-
-      
-
-      {/* <video data-setup='{}'>
-        <source src={streamPlaybackUrl} type="application/x-mpegURL"/>
-      </video> */}
     </>
     
     
