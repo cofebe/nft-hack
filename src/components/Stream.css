@@ -1,10 +1,39 @@
 
 .root {
-  background-color: red;
+  /* background-color: red; */
   margin: 0;
   height: 100%;
 }
 
 #streamPreview {
   height: 100%;
+}
+
+.topStreamBar {
+  z-index: 100000000;
+  position: absolute !important;
+}
+
+.streamTitleBar {
+  background-color: rgba(255, 255, 255, 0.562);
+  border-radius: 10px;
+  height: 70px;
+}
+
+.startStreamButton {
+  z-index: 100000000;
+  /* position: absolute !important; */
+  /* left: 50%;
+  top: 40px; */
+}
+
+.endStreamButton {
+  z-index: 100000000;
+  /* position: absolute !important;
+  right: 0;
+  top: 40px; */
+}
+
+.streamNameInput {
+  width: 200px;
 }

@@ -1,5 +1,6 @@
 const axios = require('axios');
 const cors = require('cors');
+const { response } = require('express');
 const express = require('express');
 const app = express();
 
@@ -11,9 +12,9 @@ app.use(cors({
     origin: '*'
 }));
 
-app.get('/', (req, res) =>{
+app.get('/', async (req, res) => {
   console.log("Request recieved")
-  axios({
+  const livepeerRes = await axios({
     headers: {
       'Authorization': `Bearer ${LIVEPEER_API_KEY}`,
       'Content-Type': "application/json"
@@ -48,14 +49,20 @@ app.get('/', (req, res) =>{
     }
   })
   .then(function (response) {
-    console.log(response)
+    if (response.status > 299) {
+      console.log('received status code from livepeer: ' + response.status);
+    }
+    console.log('response', response);
+    return response;
   })
   .catch(function (error) {
-    console.log(error.toJSON());
-  })
+    console.log('error calling livepeer', error);
+    return error;
+  });
 
-  res.writeHead(200);
-  res.end('Hello, World!');
+  // res.writeHead(livepeerRes.status);
+  res.json(livepeerRes.data);
+
 });
 
 app.listen(3004);

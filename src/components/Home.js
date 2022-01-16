@@ -1,11 +1,15 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import ImageList from '@mui/material/ImageList';
+import {
+  ImageList,
+  Button,
+} from '@mui/material';
 import ImageListItem from '@mui/material/ImageListItem';
 import ImageListItemBar from '@mui/material/ImageListItemBar';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
+import './Home.css';
 
 function Home({ setMode, }) {
   return (
@@ -25,11 +29,26 @@ function Home({ setMode, }) {
         {/* CENTER */}
         <Grid container item
           sm={8}
+          className='centerContent'
+          padding={2}
+          
         >
-          <Grid item
+          <Grid container item
             sm={12}
+            alignContent='center'
+            alignItems='center'
+            justifyContent='center'
+            padding={2}
+            className={'topBar'}
           >
-            <Typography>TITLE</Typography>
+            <Button
+                variant='contained'
+                // className='createStreamButton'
+                onClick={() => {
+                  setMode('stream');
+                }}
+              >Create Stream</Button>
+            {/* <Typography>TITLE</Typography> */}
           </Grid>
           <Grid item
             sm={12}

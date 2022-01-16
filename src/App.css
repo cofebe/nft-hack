@@ -46,15 +46,28 @@ html, body {
 
 .App-header,
 .footer {
-  background: #00022e;
+  /* background: #00022e; */
+  background-color: rgb(37, 63, 100);
   height: 60px;
-  color: #fc86aa;
+  color: #ff92b3;
   top: 60px;
 }
 
+
 .title {
   position: absolute;
+  top: -36px;
+  left: 2em;
+  font-size: 40px;
+  /* font-family: 'Brush Script MT', cursive; */
+}
+
+.titleScript {
+  position: absolute;
+  top: -50px;
   left: 5em;
+  font-size: 50px;
+  font-family: 'Brush Script MT', cursive;
 }
 
 .button {

@@ -4,7 +4,7 @@
   top: 0;
   width: 100%;
   margin: 0;
-  background-color: black;
+  /* background-color: black; */
 }
 
 .closeButton {
@@ -16,8 +16,10 @@
 
 .streamPreview, .vjs-tech {
   width: 100%;
-  /* position: absolute;
-  top: 0; */
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 0;
 }
 
 /* .vjs-control-bar {

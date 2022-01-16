@@ -8,11 +8,16 @@ import videojs from 'video.js';
 import {
   Button,
   Typography,
+  Grid,
+  TextField,
 } from '@mui/material';
 import './Stream.css';
 import { Client, isSupported } from '@livepeer/webrtmp-sdk';
 
 import nftHack from '../evm/artifacts/contracts/nft-hack.sol/NFTHACK.json';
+
+// @todo move to config
+const nftContractAddress = '0x707982692FCEeE37CFed6dd48b58633cdab34801';
 
 if (!isSupported()) {
   alert('webrtmp-sdk is not currently supported on this browser');
@@ -22,11 +27,11 @@ function Stream({ setMode, }) {
 const { loginProvider, signer, address, account, accounts, connect, isConnected, balances: coinBalances, network, networkType, networkId, getNetwork } = useWallet();
   const [client, setClient] = useState();
   const [session, setSession] = useState();
+  const [streamName, setStreamName] = useState('');
 
   useEffect(() => {
     const newClient = new Client();
     setClient(newClient);
-    registerStream();
 
     // setup browser preview
     if (navigator.mediaDevices.getUserMedia) {
@@ -44,29 +49,38 @@ const { loginProvider, signer, address, account, accounts, connect, isConnected,
 
   // register a new stream
   const registerStream = async () => {
-    console.log("Here")
+    console.log("registerStream");
+    if (!client) {
+      console.log('client not set!');
+      return;
+    }
     console.log("Config: ", config)
+    console.log('creating stream with name: ' + streamName);
     axios({
       method: 'get',
       url: 'http://localhost:3004',
       data: {
         // @todo allow user to set stream name
-        name: 'test_stream',
+        // name: 'test_stream_' + (new Date()).toISOString(),
+        name: streamName,
       }
     })
-      .then(function (response) {
-        console.log(response.data)
-        startStream(response.data['streamKey'])
-        updateContract(response.data['playbackId'])
-      })
-      .catch(function (error) {
-        console.log(error.toJSON());
-      })
-  }
+    .then(function (response) {
+      console.log('registerStream res', response.data)
+      startStream(response.data['streamKey'])
+      updateContract(response.data['playbackId'])
+    })
+    .catch(function (error) {
+      console.log(error.toJSON());
+    });
+  };
 
   const updateContract = async (playbackId) => {
-    const url = `https://cdn.livepeer.com/hls/${playbackId}/index.m3u8`
-    const nftContractAddress = '0x35328203E1984Fb4325b4423e7d2564DE7A1bFA5';
+    if (!playbackId) {
+      console.log('Unable to save stream with undefined playbackId');
+      return;
+    }
+    const url = `https://cdn.livepeer.com/hls/${playbackId}/index.m3u8`;
 
     const nftContract = nftHackContract({
       contractAddress: nftContractAddress,
@@ -134,31 +148,62 @@ const { loginProvider, signer, address, account, accounts, connect, isConnected,
 
   return (
     <div className='root'>
-      <Typography>Stream</Typography>
+      {/* <Typography>Stream</Typography> */}
 
-      <Button
-        variant='contained'
-        onClick={async () => {
-          const newSession = await startStream();
-          setSession(newSession);
-        }}
-      >Start Stream</Button>
-
-      <Button
-        variant='contained'
-        onClick={() => {
-          try {
-            session.close();
-            console.log('stream session ended');
-          } catch (e) {
-            console.log(`error while closing stream session\n${e.stack}`);
-          }
-          setMode('home');
-        }}
-      >End Stream</Button>
-
+      <Grid container
+        direction='row'
+        className='topStreamBar'
+      >
+        <Grid item
+          sm={2}
+        >
+          {/* none */}
+        </Grid>
+        <Grid container item
+          className='streamTitleBar'
+          justifyContent="space-around"
+          alignItems="center"
+          // spacing={3}
+          sm={8}
+        >
+          <TextField
+            id="outlined-basic"
+            label="Stream Name"
+            variant="outlined"
+            className='streamNameInput'
+            onChange={event => setStreamName(event.target.value)}
+          />
+          <Button
+            variant='contained'
+            className='startStreamButton'
+            onClick={async () => {
+              // const newSession = await startStream();
+              // setSession(newSession);
+              registerStream();
+            }}
+          >Start Stream</Button>
+          <Button
+            variant='contained'
+            className='endStreamButton'
+            onClick={() => {
+              try {
+                session.close();
+                console.log('stream session ended');
+              } catch (e) {
+                console.log(`error while closing stream session\n${e.stack}`);
+              }
+              setMode('home');
+            }}
+          >End Stream</Button>
+        </Grid>
+        <Grid item
+          sm={2}
+        >
+          {/* none */}
+        </Grid>
+      </Grid>
       
-      <video id='streamPreview' className='streamPreview' autoplay='true'>
+      <video id='streamPreview' className='streamPreview' autoPlay={true}>
         {/* <source srcObject={localStream} type="application/x-mpegURL"/> */}
       </video>
 
