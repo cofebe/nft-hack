@@ -41,6 +41,10 @@ contract NFTHACK {
     return true;
   }
 
+  function getStreamArray() public view returns (Stream[] memory) {
+    return streamArray;
+  }
+
 
 
 
