@@ -124,9 +124,9 @@ function App() {
         direction='column'
         // spacing={6}
       >
-        <Typography>Connected: {isConnected ? 'yes' : 'no'}</Typography>
-        <Typography>| Address: {shortAddress(address)}</Typography>
-        <Typography>| Network: {network?.name} ({networkId})</Typography>
+        <Typography variant='subtitle'>Connected: {isConnected ? 'yes' : 'no'}</Typography>
+        <Typography variant='subtitle'>Address: {shortAddress(address)}</Typography>
+        <Typography variant='subtitle'>Network: {network?.name} ({networkId})</Typography>
       </Grid>
     );
   };
