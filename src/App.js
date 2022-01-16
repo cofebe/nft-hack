@@ -41,7 +41,7 @@ function App() {
         console.log('run interval check');
         await getStreamCollection(listOfStreams);
         console.log('mappedStreams: ', streamCollection);
-      }, 120000);
+      }, 5000);
       return () => clearInterval(interval);
     };
     init();
