@@ -23,8 +23,8 @@ function App() {
   const { loginProvider, signer, address, account, accounts, connect, isConnected, balances: coinBalances, network, networkType, networkId, getNetwork } = useWallet();
   const [mode, setMode] = useState('home');
   const [streamCollection, setStreamCollection] = useState([]);
+  const [watchUrl, setWatchUrl] = useState([]);
   const contractAddress = '0x700433206Dc6979784c4bdeb8c4C91FFB745E8b7';
-  // let streamCollection = null;
   useEffect(() => {
     if (!address || !signer) return;
     console.log('address: ', address)
@@ -37,7 +37,6 @@ function App() {
       const streamContract = nftHackContract({contractAddress: nftHackContractAddress, loginProvider: signer});
       const listOfStreams = await streamContract.getStreamArray();
       await getStreamCollection(listOfStreams);
-      console.log('streamCollection', streamCollection);
       const interval = setInterval(async () => {
         console.log('run interval check');
         await getStreamCollection(listOfStreams);
@@ -159,6 +158,7 @@ function App() {
         <Home
           setMode={setMode}
           streamData={streamCollection}
+          setWatchUrl={setWatchUrl}
         />
       }
 

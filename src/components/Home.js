@@ -11,7 +11,7 @@ import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
 import './Home.css';
 
-function Home({ setMode, streamData, }) {
+function Home({ setMode, streamData, setWatchUrl, }) {
   console.log('streamData: ', streamData);
   return (
 
@@ -54,25 +54,22 @@ function Home({ setMode, streamData, }) {
           <Grid item
             sm={12}
           >
-            <ImageList>
-              {itemData.map((item, i) => (
+            <Grid container>
+              {streamData.map((item, i) => (
                 <Grid item key={i} xs={12}>
-                  <ImageListItem key={item.img}>
-                    <img
-                      src={`${item.img}?w=248&fit=crop&auto=format`}
-                      srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                      alt={item.title}
-                      loading="lazy"
-                    />
-                    <ImageListItemBar
-                      title={item.title}
-                      subtitle={<span>by: {item.author}</span>}
-                      position="below"
-                    />
-                  </ImageListItem>
+                  <div>
+                  {item.url}
+                  </div>
+                  <Button variant='contained'
+                // className='createStreamButton'
+                onClick={() => {
+                  setWatchUrl(item.url);
+                  setMode('watch');  
+                }}
+              >Watch Stream</Button>
                 </Grid>
               ))}
-            </ImageList>
+            </Grid>
           </Grid>
         </Grid>
         
