@@ -11,7 +11,8 @@ import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
 import './Home.css';
 
-function Home({ setMode, }) {
+function Home({ setMode, streamData, }) {
+  console.log('streamData: ', streamData);
   return (
 
     <div className="contianer">
