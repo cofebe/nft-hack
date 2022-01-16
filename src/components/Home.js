@@ -51,6 +51,22 @@ function Home({ setMode, streamData, setWatchUrl, }) {
     }
   };
 
+  const openseaButton = () => {
+    return (
+      <button
+        style={{ backgroundColor: '#2666c7', float: 'right', textAlign: 'right' }}
+        onClick={() => {
+            window.open('https://opensea.io/assets/0x495f947276749ce646f68ac8c248420045cb7b5e/74661804639461098708131462223609063755981185112722833040679211593380806000641', '_blank');
+        }}>
+        <p>Buy Now On</p>
+        <img
+          style={{ marginTop: '10px', marginLeft: '10px' }}
+          width="75px"
+          src='https://storage.googleapis.com/opensea-static/Logomark/OpenSea-Full-Logo%20(dark).svg' />
+      </button>
+    );
+  };
+
   return (
 
     <div className="contianer">
@@ -93,7 +109,7 @@ function Home({ setMode, streamData, setWatchUrl, }) {
             sm={12}
           >
 
-          <div style={{ backgroundColor: '#d13da5' }}>
+          {/* <div style={{ backgroundColor: '#d13da5' }}>
             <div>
               <img style={{ paddingTop: '10px', paddingLeft: '10px' }} width="50px;" src='https://lh3.googleusercontent.com/QHq_GOx-FBJ1HkAUuZ-RxaYDpbr4udl67kjRYvOKo3BkHn74SOi3goDuMR3199XwAmT3cdGciyH_WT5KmW57hCeBaw75T9KaChnuTBE=s120' />;
               <img style={{ padding: 'auto' }} width="50px;" src='https://lh3.googleusercontent.com/QHq_GOx-FBJ1HkAUuZ-RxaYDpbr4udl67kjRYvOKo3BkHn74SOi3goDuMR3199XwAmT3cdGciyH_WT5KmW57hCeBaw75T9KaChnuTBE=s120' />;
@@ -113,38 +129,55 @@ function Home({ setMode, streamData, setWatchUrl, }) {
               </button>
             </div>
 
-          </div>
+          </div> */}
 
             <Grid container>
               {streamData.map((item, i) => {
-                var collectionInfo = {};//getCollectionInfo(item);
+                var collectionInfo = {
+                  title: 'BAYC',
+                  img: 'https://lh3.googleusercontent.com/Q4uXff5hD6T91FlaDiqZTpMu-kEgwx6IcUHXsWF_Moq5u6VOvfqKuIXN2_StL78LNiA1YW3e16vnrLq_zqvfOMtK7PLy9AcKGxWr=w600',
+                };//getCollectionInfo(item);
                 return (
-                <Grid item key={i} xs={12}>
-                  <ImageListItem key={item.img}>
-                    <img
-                      src={`${collectionInfo.img}?w=248&fit=crop&auto=format`}
-                      srcSet={`${collectionInfo.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                      className='collectionImg'
-                      alt={item.title}
-                      loading="lazy"
-                    />
-                    <ImageListItemBar
-                      title={item.title}
-                      subtitle={<span>by: {item.author}</span>}
-                      position="below"
-                    />
-                  </ImageListItem>
-                  <div>
-                    {item.url}
-                  </div>
-                  <Button variant='contained' 
-                    disabled={item.isLocked}
-                // className='createStreamButton'
-                onClick={() => {
-                  setWatchUrl(item.url);
-                  setMode('watch');  
-                }}
-              >Watch Stream</Button>
+                <Grid item container
+                  key={i} xs={12}>
+
+                  <Grid item
+                    sm={4}
+                  >
+                    <ImageListItem key={item.img}>
+                      <img
+                        src={`${collectionInfo.img}?w=248&fit=crop&auto=format`}
+                        srcSet={`${collectionInfo.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                        className='collectionImg'
+                        alt={item.title}
+                        loading="lazy"
+                      />
+                      {/* <ImageListItemBar
+                        title={collectionInfo.title}
+                        subtitle={<span>by: {item.author}</span>}
+                        position="below"
+                      /> */}
+                    </ImageListItem>
+                  </Grid>
+
+                  <Grid item
+                    sm={4}
+                  >
+                    <Typography variant='h4'>{collectionInfo.title}</Typography>
+                    {/* <div>
+                      {item.url}
+                    </div> */}
+                    <Button variant='contained' 
+                      disabled={item.isLocked}
+                      // className='createStreamButton'
+                      onClick={() => {
+                        setWatchUrl(item.url);
+                        setMode('watch');  
+                      }}
+                    >Watch Stream</Button>
+                    {item.isLocked && openseaButton()}
+                  </Grid>
+
                 </Grid>
               )})}
             </Grid>
