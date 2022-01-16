@@ -13,7 +13,8 @@ import './App.css';
 import logo from './eth-diamond-rainbow.png';
 import Stream from './components/Stream.js';
 import { getOwnerNfts } from './libs/util.js';
-import Home from './components/Home';
+import Home from './components/Home.js';
+import Watch from './components/Watch.js';
 
 const streamPlaybackUrl = 'https://cdn.livepeer.com/hls/26cafzyg7i8yhgb5/index.m3u8';
 
@@ -131,7 +132,18 @@ function App() {
                 onClick={() => {
                   setMode('stream');
                 }}
-              >Open Stream</Button>
+              >Create Stream</Button>
+            }
+          </div>
+
+          <div className='button'>
+            {mode === 'home' &&
+              <Button
+                variant='contained'
+                onClick={() => {
+                  setMode('watch');
+                }}
+              >Watch Stream</Button>
             }
           </div>
       </header>
@@ -145,6 +157,13 @@ function App() {
       {mode === 'stream' &&
         <Stream
           setMode={setMode}
+        />
+      }
+
+      {mode === 'watch' &&
+        <Watch
+          setMode={setMode}
+          watchUrl={'https://cdn.livepeer.com/hls/e673nk1hjtdheb8m/index.m3u8'}
         />
       }
 

@@ -9,8 +9,8 @@ contract NFTHACK {
   
   address adminAddress;
   // streams[NFT_CONTRACT_ADDRESS][HOST_ADDRESS] = Stream
-  mapping(address => mapping(address => Stream)) streams;
-
+  mapping(address => mapping(address => Stream)) public streams;
+  Stream[] public streamArray;
 
   struct Stream {
     address host;
@@ -36,6 +36,7 @@ contract NFTHACK {
       url: url
     });
     streams[requiredCollection][msg.sender] = newStream;
+    streamArray.push(newStream);
     emit StreamCreated(msg.sender, requiredCollection, url);
     return true;
   }
