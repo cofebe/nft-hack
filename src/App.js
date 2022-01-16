@@ -22,8 +22,9 @@ const streamPlaybackUrl = 'https://cdn.livepeer.com/hls/26cafzyg7i8yhgb5/index.m
 function App() {
   const { loginProvider, signer, address, account, accounts, connect, isConnected, balances: coinBalances, network, networkType, networkId, getNetwork } = useWallet();
   const [mode, setMode] = useState('home');
+  let [streamCollection] = useState([]);
   const contractAddress = '0x700433206Dc6979784c4bdeb8c4C91FFB745E8b7';
-  let streamCollection = [];
+  // let streamCollection = null;
   useEffect(() => {
     if (!address || !signer) return;
     console.log('address: ', address)
@@ -78,8 +79,6 @@ function App() {
       newStream["stream"] = streams[i];
       newStream['isLocked'] = true;
       newStream['url'] = streams[i]["url"];
-      console.log('personal Address', personalNftAddresses);
-      console.log('streams[i]', streams[i]["requiredCollection"].toLowerCase());
       if (personalNftAddresses.indexOf(streams[i]["requiredCollection"].toLowerCase()) > -1) {
         newStream['isLocked'] = false;
       }
@@ -136,6 +135,7 @@ function App() {
   };
 
   if (!address) return <></>;
+  if (!streamCollection) return <></>;
 
   return (
     <>
@@ -162,6 +162,7 @@ function App() {
       {mode === 'home' &&
         <Home
           setMode={setMode}
+          streamData={streamCollection}
         />
       }
 
