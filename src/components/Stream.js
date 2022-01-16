@@ -28,6 +28,8 @@ const { loginProvider, signer, address, account, accounts, connect, isConnected,
   const [client, setClient] = useState();
   const [session, setSession] = useState();
   const [streamName, setStreamName] = useState('');
+  const [lockContractAddress, setLockContractAddress] = useState();
+  const [isActive, setIsActive] = useState(false);
 
   useEffect(() => {
     const newClient = new Client();
@@ -57,7 +59,7 @@ const { loginProvider, signer, address, account, accounts, connect, isConnected,
     console.log("Config: ", config)
     console.log('creating stream with name: ' + streamName);
     axios({
-      method: 'get',
+      method: 'post',
       url: 'http://localhost:3004',
       data: {
         // @todo allow user to set stream name
@@ -80,6 +82,11 @@ const { loginProvider, signer, address, account, accounts, connect, isConnected,
       console.log('Unable to save stream with undefined playbackId');
       return;
     }
+    // @todo validate lockContractAddress as actual NFT contract
+    if (!lockContractAddress) {
+      console.log('Unable to save stream with undefined NFT contract address');
+      return;
+    }
     const url = `https://cdn.livepeer.com/hls/${playbackId}/index.m3u8`;
 
     const nftContract = nftHackContract({
@@ -89,11 +96,10 @@ const { loginProvider, signer, address, account, accounts, connect, isConnected,
     });
 
     console.log('nftContract', nftContract);
-    const tx = await nftContract.createStream(nftContractAddress, url);
+    const tx = await nftContract.createStream(lockContractAddress, url);
     console.log('after tx', tx);
     const receipt = await tx.wait();
     console.log('after receipt', receipt);
-
 
     const logs = getLogs(receipt, nftHack.abi);
     console.log('logs', logs);
@@ -102,6 +108,7 @@ const { loginProvider, signer, address, account, accounts, connect, isConnected,
       throw new Error('nftHack StreamCreated failed');
     } else {
       console.log('StreamCreated!');
+      setIsActive(true);
     }
   }
 
@@ -119,7 +126,6 @@ const { loginProvider, signer, address, account, accounts, connect, isConnected,
     return logs;
   };
 
-
   // start streaming to livepeer
   const startStream = async (streamKey) => {
     console.log('Stream Key: ', streamKey);
@@ -130,6 +136,7 @@ const { loginProvider, signer, address, account, accounts, connect, isConnected,
     });
 
     const session = client.cast(stream, streamKey);
+    setSession(session);
 
     session.on('open', () => {
       console.log('Stream started.');
@@ -171,23 +178,32 @@ const { loginProvider, signer, address, account, accounts, connect, isConnected,
             label="Stream Name"
             variant="outlined"
             className='streamNameInput'
+            disabled={isActive}
             onChange={event => setStreamName(event.target.value)}
+          />
+          <TextField
+            id="outlined-basic"
+            label="NFT Contract Address"
+            variant="outlined"
+            className='lockContractAddressInput'
+            disabled={isActive}
+            onChange={event => setLockContractAddress(event.target.value)}
           />
           <Button
             variant='contained'
             className='startStreamButton'
+            disabled={isActive}
             onClick={async () => {
-              // const newSession = await startStream();
-              // setSession(newSession);
               registerStream();
             }}
           >Start Stream</Button>
           <Button
             variant='contained'
             className='endStreamButton'
-            onClick={() => {
+            disabled={!isActive}
+            onClick={async () => {
               try {
-                session.close();
+                await session.close();
                 console.log('stream session ended');
               } catch (e) {
                 console.log(`error while closing stream session\n${e.stack}`);

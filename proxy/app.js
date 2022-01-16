@@ -12,8 +12,10 @@ app.use(cors({
     origin: '*'
 }));
 
-app.get('/', async (req, res) => {
-  console.log("Request recieved")
+app.use(express.json());
+
+app.post('/', async (req, res) => {
+  console.log("Request recieved");
   const livepeerRes = await axios({
     headers: {
       'Authorization': `Bearer ${LIVEPEER_API_KEY}`,
@@ -22,7 +24,7 @@ app.get('/', async (req, res) => {
     method: 'post',
     url: 'https://livepeer.com/api/stream',
     data: {
-      name: 'test_stream',
+      name: req.body.name,
       profiles: [
         {
           "name": "720p",
