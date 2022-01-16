@@ -29,18 +29,90 @@
         }
       },
       "imports": [
-        "@openzeppelin/contracts/token/ERC721/IERC721.sol",
-        "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol"
+        "../../utils/introspection/IERC165.sol"
       ],
       "versionPragmas": [
-        "^0.8.3"
+        "^0.8.0"
       ],
       "artifacts": [
-        "NFTHACK"
+        "IERC721"
       ]
     },
-    "/Users/bryan/Documents/code/github.com/cofebe/nft-hack/src/evm/node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol": {
-      "lastModificationDate": 1642270937988,
+    "/Users/yaritzacuevas/Development/nft-hack/src/evm/node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol": {
+      "lastModificationDate": 1642301453600,
+      "contentHash": "88095889e59d16821879a8083f906503",
+      "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol",
+      "solcConfig": {
+        "version": "0.8.3",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../ERC721.sol",
+        "./IERC721Enumerable.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ERC721Enumerable"
+      ]
+    },
+    "/Users/yaritzacuevas/Development/nft-hack/src/evm/node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol": {
+      "lastModificationDate": 1642301453773,
+      "contentHash": "03e6768535ac4da0e9756f1d8a4a018a",
+      "sourceName": "@openzeppelin/contracts/utils/introspection/IERC165.sol",
+      "solcConfig": {
+        "version": "0.8.3",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IERC165"
+      ]
+    },
+    "/Users/yaritzacuevas/Development/nft-hack/src/evm/node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol": {
+      "lastModificationDate": 1642301453554,
       "contentHash": "ead7082e39cf31875ff89b22f473500d",
       "sourceName": "@openzeppelin/contracts/token/ERC721/ERC721.sol",
       "solcConfig": {
@@ -82,10 +154,10 @@
         "ERC721"
       ]
     },
-    "/Users/bryan/Documents/code/github.com/cofebe/nft-hack/src/evm/node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol": {
-      "lastModificationDate": 1642270938426,
-      "contentHash": "27d219ec6f69478d065fdbfa7931da68",
-      "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721.sol",
+    "/Users/yaritzacuevas/Development/nft-hack/src/evm/node_modules/@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol": {
+      "lastModificationDate": 1642301453813,
+      "contentHash": "f69eb47f667b846a8698697d25eeff4e",
+      "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol",
       "solcConfig": {
         "version": "0.8.3",
         "settings": {
@@ -110,17 +182,17 @@
         }
       },
       "imports": [
-        "../../utils/introspection/IERC165.sol"
+        "../IERC721.sol"
       ],
       "versionPragmas": [
         "^0.8.0"
       ],
       "artifacts": [
-        "IERC721"
+        "IERC721Enumerable"
       ]
     },
-    "/Users/bryan/Documents/code/github.com/cofebe/nft-hack/src/evm/node_modules/@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol": {
-      "lastModificationDate": 1642270938455,
+    "/Users/yaritzacuevas/Development/nft-hack/src/evm/node_modules/@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol": {
+      "lastModificationDate": 1642301453821,
       "contentHash": "592df588492d45fdcf46b3cb608c0fbf",
       "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol",
       "solcConfig": {
@@ -154,8 +226,8 @@
         "IERC721Receiver"
       ]
     },
-    "/Users/bryan/Documents/code/github.com/cofebe/nft-hack/src/evm/node_modules/@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol": {
-      "lastModificationDate": 1642270938449,
+    "/Users/yaritzacuevas/Development/nft-hack/src/evm/node_modules/@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol": {
+      "lastModificationDate": 1642301453818,
       "contentHash": "efbc0d15b80a74e34dbe8da0f3e879bb",
       "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol",
       "solcConfig": {
@@ -191,8 +263,8 @@
         "IERC721Metadata"
       ]
     },
-    "/Users/bryan/Documents/code/github.com/cofebe/nft-hack/src/evm/node_modules/@openzeppelin/contracts/utils/Address.sol": {
-      "lastModificationDate": 1642270937526,
+    "/Users/yaritzacuevas/Development/nft-hack/src/evm/node_modules/@openzeppelin/contracts/utils/Address.sol": {
+      "lastModificationDate": 1642301453274,
       "contentHash": "4cff8b2ea0d958750786b4e3ca308445",
       "sourceName": "@openzeppelin/contracts/utils/Address.sol",
       "solcConfig": {
@@ -226,8 +298,8 @@
         "Address"
       ]
     },
-    "/Users/bryan/Documents/code/github.com/cofebe/nft-hack/src/evm/node_modules/@openzeppelin/contracts/utils/Context.sol": {
-      "lastModificationDate": 1642270937592,
+    "/Users/yaritzacuevas/Development/nft-hack/src/evm/node_modules/@openzeppelin/contracts/utils/Context.sol": {
+      "lastModificationDate": 1642301453308,
       "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
       "sourceName": "@openzeppelin/contracts/utils/Context.sol",
       "solcConfig": {
@@ -261,8 +333,8 @@
         "Context"
       ]
     },
-    "/Users/bryan/Documents/code/github.com/cofebe/nft-hack/src/evm/node_modules/@openzeppelin/contracts/utils/Strings.sol": {
-      "lastModificationDate": 1642270938653,
+    "/Users/yaritzacuevas/Development/nft-hack/src/evm/node_modules/@openzeppelin/contracts/utils/Strings.sol": {
+      "lastModificationDate": 1642301453911,
       "contentHash": "9c54c6c065d9e590fdcdd72c451425b9",
       "sourceName": "@openzeppelin/contracts/utils/Strings.sol",
       "solcConfig": {
@@ -296,8 +368,8 @@
         "Strings"
       ]
     },
-    "/Users/bryan/Documents/code/github.com/cofebe/nft-hack/src/evm/node_modules/@openzeppelin/contracts/utils/introspection/ERC165.sol": {
-      "lastModificationDate": 1642270937781,
+    "/Users/yaritzacuevas/Development/nft-hack/src/evm/node_modules/@openzeppelin/contracts/utils/introspection/ERC165.sol": {
+      "lastModificationDate": 1642301453422,
       "contentHash": "0e7db055ce108f9da7bb6686a00287c0",
       "sourceName": "@openzeppelin/contracts/utils/introspection/ERC165.sol",
       "solcConfig": {
@@ -333,45 +405,10 @@
         "ERC165"
       ]
     },
-    "/Users/bryan/Documents/code/github.com/cofebe/nft-hack/src/evm/node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol": {
-      "lastModificationDate": 1642270938328,
-      "contentHash": "03e6768535ac4da0e9756f1d8a4a018a",
-      "sourceName": "@openzeppelin/contracts/utils/introspection/IERC165.sol",
-      "solcConfig": {
-        "version": "0.8.3",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "IERC165"
-      ]
-    },
-    "/Users/bryan/Documents/code/github.com/cofebe/nft-hack/src/evm/node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol": {
-      "lastModificationDate": 1642270938017,
-      "contentHash": "88095889e59d16821879a8083f906503",
-      "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol",
+    "/Users/yaritzacuevas/Development/nft-hack/src/evm/contracts/nft-hack.sol": {
+      "lastModificationDate": 1642303791347,
+      "contentHash": "c8f55aa06b9f7e9265ed2ef27e90837e",
+      "sourceName": "contracts/nft-hack.sol",
       "solcConfig": {
         "version": "0.8.3",
         "settings": {
@@ -396,51 +433,14 @@
         }
       },
       "imports": [
-        "../ERC721.sol",
-        "./IERC721Enumerable.sol"
+        "@openzeppelin/contracts/token/ERC721/IERC721.sol",
+        "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol"
       ],
       "versionPragmas": [
-        "^0.8.0"
+        "^0.8.3"
       ],
       "artifacts": [
-        "ERC721Enumerable"
-      ]
-    },
-    "/Users/bryan/Documents/code/github.com/cofebe/nft-hack/src/evm/node_modules/@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol": {
-      "lastModificationDate": 1642270938436,
-      "contentHash": "f69eb47f667b846a8698697d25eeff4e",
-      "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol",
-      "solcConfig": {
-        "version": "0.8.3",
-        "settings": {
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "../IERC721.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "IERC721Enumerable"
+        "NFTHACK"
       ]
     }
   }

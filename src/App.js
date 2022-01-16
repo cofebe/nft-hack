@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import ERC721Contract from './libs/ERC721Contract';
+import nftHackContract from './libs/nftHackContract';
 import {
   TextField,
   Grid,
@@ -28,14 +29,23 @@ function App() {
     if (!address || !signer) return;
     console.log('address: ', address)
     const init = async () => {
-      const contractAddress = '0x700433206Dc6979784c4bdeb8c4C91FFB745E8b7';
+      const apeContractAddress = '0x700433206Dc6979784c4bdeb8c4C91FFB745E8b7';
+      const nftHackContractAddress = '0x707982692FCEeE37CFed6dd48b58633cdab34801';
       console.log(1);
-      const contract = ERC721Contract({ contractAddress, loginProvider: signer });
-      console.log(2);
-      await checkAccessForContract(contractAddress)
+      const boredApesContract = ERC721Contract({ contractAddress: apeContractAddress, loginProvider: signer });
+      console.log('boredApesContract: ', boredApesContract);
+      const streamContract = nftHackContract({contractAddress: nftHackContractAddress, loginProvider: signer});
+      const listOfStreams = await streamContract.getStreamArray();
+      const covalentResp = await getTransactions();
+      const covalentItems = covalentResp["data"]["items"];
+      const nftItemsOnly = getNftItemsOnly(covalentItems);
+      const ownedNftAddresses = getNftAddresses(nftItemsOnly);
+      const mappedStreamCollection = mapStreams(ownedNftAddresses, listOfStreams);
+      console.log('mappedStreams: ', mappedStreamCollection);
+
     };
     init();
-  }, [address, signer]);
+  }, [address, signer, account]);
 
   useEffect(() => {
     console.log('mode set to: ' + mode);
@@ -51,24 +61,30 @@ function App() {
     console.log('accounts set!', accounts[0]);
   }, [accounts]);
 
-  async function checkAccessForContract(contractAddress) {
-    console.log('calling checkAccess');
+  function mapStreams(personalNftAddresses, streams) {
+    let mappedStreams = []
+    let newStream = {}
+    for (let i = 0; i < streams.length; i++) {
+      newStream["stream"] = streams[i];
+      newStream['isLocked'] = true;
+      newStream['url'] = streams[i]["url"];
+      if (personalNftAddresses.indexOf(streams[i]["requiredCollection"]) > -1) {
+        newStream['isLocked'] = false;
+      }
+      mappedStreams.push(newStream);
+      newStream = {};
+    }
+    return mappedStreams;
+  }
+
+  async function getTransactions() {
+    const apiAddressBase = 'https://api.covalenthq.com/v1/80001/address/';
     const etheaddress = '0xfDCf84cD2d994d44f7b7854Db9aDD10A936aaC9A';
-    const response = fetch('https://api.covalenthq.com/v1/80001/address/' + etheaddress + '/balances_v2/?quote-currency=USD&format=JSON&nft=true&key=ckey_200682d8e34b495f9557869dacd');
-    response.then((r) => {
-      r.json().then((j) => {
-        const items = j["data"]["items"];
-        const nftItemsOnly = getNftItemsOnly(items);
-        const addresses = getNftAddresses(nftItemsOnly);
-        const isAllowed = isAccessAllowed(addresses, CONTRACT_ADDRESSES)
-        console.log('is allowed access: ', isAllowed);
-        
-      }, (err) => {
-        console.log('err: ', err);
-      });
-    }, (err) => {
-      console.log('err: ', err);
-    })
+    const key = 'ckey_200682d8e34b495f9557869dacd';
+    const apiAddress = apiAddressBase + etheaddress + '/balances_v2/?quote-currency=USD&format=JSON&nft=true&key=' + key;
+    const fetchResponse = await fetch(apiAddress);
+    const resJson = await fetchResponse.json();
+    return resJson;
   }
 
   function getNftItemsOnly(items) {
@@ -76,15 +92,10 @@ function App() {
       return item["type"] === "nft";
     });
   }
-
+  
   function getNftAddresses(items) {
     const addresses = items.map(item => item["contract_address"]);
     return addresses;
-  }
-
-  function isAccessAllowed(ownedNftAddresses, streamNftAddresses) {
-    const commonAddresses = ownedNftAddresses.filter(ownedAddresses => streamNftAddresses.includes(ownedAddresses));
-    return commonAddresses.length > 0;
   }
 
   const networkInfoBox = () => {
