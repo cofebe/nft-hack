@@ -16,13 +16,12 @@ import { getOwnerNfts } from './libs/util.js';
 import Home from './components/Home';
 
 const streamPlaybackUrl = 'https://cdn.livepeer.com/hls/26cafzyg7i8yhgb5/index.m3u8';
-
+const CONTRACT_ADDRESSES = ['0x700433206dc6979784c4bdeb8c4c91ffb745e8b7'];
 
 function App() {
   const { loginProvider, signer, address, account, accounts, connect, isConnected, balances: coinBalances, network, networkType, networkId, getNetwork } = useWallet();
   const [mode, setMode] = useState('home');
-  const REQUIREDNFTIDs = ['1', '2'];
-  
+  const contractAddress = '0x700433206Dc6979784c4bdeb8c4C91FFB745E8b7';
 
   useEffect(() => {
     if (!address || !signer) return;
@@ -32,7 +31,7 @@ function App() {
       console.log(1);
       const contract = ERC721Contract({ contractAddress, loginProvider: signer });
       console.log(2);
-      await checkAccess()
+      await checkAccessForContract(contractAddress)
     };
     init();
   }, [address, signer]);
@@ -51,7 +50,7 @@ function App() {
     console.log('accounts set!', accounts[0]);
   }, [accounts]);
 
-  async function checkAccess() {
+  async function checkAccessForContract(contractAddress) {
     console.log('calling checkAccess');
     const etheaddress = '0xfDCf84cD2d994d44f7b7854Db9aDD10A936aaC9A';
     const response = fetch('https://api.covalenthq.com/v1/80001/address/' + etheaddress + '/balances_v2/?quote-currency=USD&format=JSON&nft=true&key=ckey_200682d8e34b495f9557869dacd');
@@ -59,9 +58,9 @@ function App() {
       r.json().then((j) => {
         const items = j["data"]["items"];
         const nftItemsOnly = getNftItemsOnly(items);
-        const tokensOnly = getNftTokenIds(nftItemsOnly);
-        console.log('tokensOnly', tokensOnly);
-        console.log('is allowed access: ', isAccessAllowed(tokensOnly));
+        const addresses = getNftAddresses(nftItemsOnly);
+        const isAllowed = isAccessAllowed(addresses, CONTRACT_ADDRESSES)
+        console.log('is allowed access: ', isAllowed);
         
       }, (err) => {
         console.log('err: ', err);
@@ -77,19 +76,14 @@ function App() {
     });
   }
 
-  function getNftTokenIds(items) {
-    let tokens = [];
-    items.forEach(element => {
-      const t = element["nft_data"].map(function(item) {return item["token_id"]});
-      tokens = tokens.concat(t);
-    });
-
-    return tokens;
+  function getNftAddresses(items) {
+    const addresses = items.map(item => item["contract_address"]);
+    return addresses;
   }
 
-  function isAccessAllowed(ownedTokens) {
-    const commonTokens = ownedTokens.filter(ownedToken => REQUIREDNFTIDs.includes(ownedToken));
-    return commonTokens.length > 0;
+  function isAccessAllowed(ownedNftAddresses, streamNftAddresses) {
+    const commonAddresses = ownedNftAddresses.filter(ownedAddresses => streamNftAddresses.includes(ownedAddresses));
+    return commonAddresses.length > 0;
   }
 
   const networkInfoBox = () => {
