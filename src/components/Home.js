@@ -11,21 +11,21 @@ import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
 import './Home.css';
 
-function Home({ setMode, streamData, }) {
+function Home({ setMode, streamData, setWatchUrl, }) {
   console.log('streamData: ', streamData);
   const [collectionData, setCollectionData] = useState();
 
-  const getCollectionInfo = async contractAddress => {
-    // https://api.covalenthq.com/v1/80001/tokens/0x700433206Dc6979784c4bdeb8c4C91FFB745E8b7/nft_metadata/1/?quote-currency=USD&format=JSON&key=ckey_200682d8e34b495f9557869dacd
-    console.log('getCollectionInfo', contractAddress);
-    const apiAddressBase = 'https://api.covalenthq.com/v1/80001/tokens/';
-    const key = 'ckey_200682d8e34b495f9557869dacd';
-    const tokenId = 1; // @todo randomize?
-    const apiAddress = apiAddressBase + contractAddress + '/nft_metadata/' + tokenId + '/?quote-currency=USD&format=JSON&key=' + key;
-    const fetchResponse = await fetch(apiAddress);
-    const resJson = await fetchResponse.json();
-    return resJson;
-  };
+  // const getCollectionInfo = async contractAddress => {
+  //   // https://api.covalenthq.com/v1/80001/tokens/0x700433206Dc6979784c4bdeb8c4C91FFB745E8b7/nft_metadata/1/?quote-currency=USD&format=JSON&key=ckey_200682d8e34b495f9557869dacd
+  //   console.log('getCollectionInfo', contractAddress);
+  //   const apiAddressBase = 'https://api.covalenthq.com/v1/80001/tokens/';
+  //   const key = 'ckey_200682d8e34b495f9557869dacd';
+  //   const tokenId = 1; // @todo randomize?
+  //   const apiAddress = apiAddressBase + contractAddress + '/nft_metadata/' + tokenId + '/?quote-currency=USD&format=JSON&key=' + key;
+  //   const fetchResponse = await fetch(apiAddress);
+  //   const resJson = await fetchResponse.json();
+  //   return resJson;
+  // };
 
   // useEffect(() => {
   //   if (!streamData || !streamData.length) return;
@@ -42,6 +42,14 @@ function Home({ setMode, streamData, }) {
   //   getData();
   // }, [streamData]);
 
+  const getCollectionInfo = collectionAddress => {
+    const result = itemData.find(item => item.contractAddress === collectionAddress);
+    if (result) {
+      return result;
+    } else {
+      return 
+    }
+  };
 
   return (
 
@@ -84,13 +92,15 @@ function Home({ setMode, streamData, }) {
           <Grid item
             sm={12}
           >
-            <ImageList>
-              {itemData.map((item, i) => (
+            <Grid container>
+              {streamData.map((item, i) => {
+                var collectionInfo = {};//getCollectionInfo(item);
+                return (
                 <Grid item key={i} xs={12}>
                   <ImageListItem key={item.img}>
                     <img
-                      src={`${item.img}?w=248&fit=crop&auto=format`}
-                      srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                      src={`${collectionInfo.img}?w=248&fit=crop&auto=format`}
+                      srcSet={`${collectionInfo.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
                       className='collectionImg'
                       alt={item.title}
                       loading="lazy"
@@ -101,9 +111,19 @@ function Home({ setMode, streamData, }) {
                       position="below"
                     />
                   </ImageListItem>
+                  <div>
+                    {item.url}
+                  </div>
+                  <Button variant='contained'
+                // className='createStreamButton'
+                onClick={() => {
+                  setWatchUrl(item.url);
+                  setMode('watch');  
+                }}
+              >Watch Stream</Button>
                 </Grid>
-              ))}
-            </ImageList>
+              )})}
+            </Grid>
           </Grid>
         </Grid>
         
@@ -133,60 +153,55 @@ const itemData = [
     // author: '@bkristastucchio',
   },
   {
-    img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',
-    title: 'Burger',
-    author: '@rollelflex_graphy726',
+    img: 'https://lh3.googleusercontent.com/Sj83HwS1zo_71ONyRVCrvU3D0yDko-4HrledptYGaopcVU1hxS-NjP7IIv0ohZU5RAVhwS-VnUFdzFryhn1GiK_m8Q=w600',
+    title: 'CryptoPunks',
   },
   {
-    img: 'https://images.unsplash.com/photo-1522770179533-24471fcdba45',
-    title: 'Camera',
-    author: '@helloimnik',
+    img: 'https://lh3.googleusercontent.com/r2d5j8W2u2pdaAyeu8ckQPst3xtu--_coUrXNmNXhphTZwanEPvNXkKzRZnYIlw5R6boSG2o3fhLr5-Tpz_dMtR-9-PUaHM-zPGW-g=s0',
+    title: 'Pudgey Doodles',
   },
   {
-    img: 'https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c',
-    title: 'Coffee',
-    author: '@nolanissac',
+    img: 'https://lh3.googleusercontent.com/kXoCpz6fZg8b49rHT1_g8v7Xw3_TiFMpMaP1_MW9Tt3-gKizL4MwhOQQGr4_jCHPnHHz9oLOHFNy08488ln4AjiyRjdQlhjhVHWG=w600',
+    title: 'Cup Cats',
   },
   {
-    img: 'https://images.unsplash.com/photo-1533827432537-70133748f5c8',
-    title: 'Hats',
-    author: '@hjrc33',
+    img: 'https://lh3.googleusercontent.com/4tswDipn3C2N1IUR7JZlSTtIljiHrikXzQb3Dsidik7IbB0Rgh7SQ3Wkar_DkbCgn2I9lqjA4eq3magGY4PJ-m5_KbRIjPVj4rre5g=w600',
+    title: 'CloneX',
   },
   {
-    img: 'https://images.unsplash.com/photo-1558642452-9d2a7deb7f62',
-    title: 'Honey',
-    author: '@arwinneil',
+    img: 'https://lh3.googleusercontent.com/_SiWih9joS0lIN6_FFmDakcI5CkJB6j5epq1F00lBlwimxElZ29iFDPl8dKVFnVMp9TZC0ZPCV2JfecMe5FG34q-uT-LNNIz57peg84=w600',
+    title: 'MAYC',
   },
   {
-    img: 'https://images.unsplash.com/photo-1516802273409-68526ee1bdd6',
-    title: 'Basketball',
-    author: '@tjdragotta',
+    img: 'https://lh3.googleusercontent.com/Q4uXff5hD6T91FlaDiqZTpMu-kEgwx6IcUHXsWF_Moq5u6VOvfqKuIXN2_StL78LNiA1YW3e16vnrLq_zqvfOMtK7PLy9AcKGxWr=w600',
+    title: 'BAYC',
+    contractAddress: '0x700433206Dc6979784c4bdeb8c4C91FFB745E8b7',
   },
-  {
-    img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
-    title: 'Fern',
-    author: '@katie_wasserman',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
-    title: 'Mushrooms',
-    author: '@silverdalex',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
-    title: 'Tomato basil',
-    author: '@shelleypauls',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
-    title: 'Sea star',
-    author: '@peterlaster',
-  },
-  {
-    img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
-    title: 'Bike',
-    author: '@southside_customs',
-  },
+  // {
+  //   img: 'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f',
+  //   title: 'Fern',
+  //   author: '@katie_wasserman',
+  // },
+  // {
+  //   img: 'https://images.unsplash.com/photo-1597645587822-e99fa5d45d25',
+  //   title: 'Mushrooms',
+  //   author: '@silverdalex',
+  // },
+  // {
+  //   img: 'https://images.unsplash.com/photo-1567306301408-9b74779a11af',
+  //   title: 'Tomato basil',
+  //   author: '@shelleypauls',
+  // },
+  // {
+  //   img: 'https://images.unsplash.com/photo-1471357674240-e1a485acb3e1',
+  //   title: 'Sea star',
+  //   author: '@peterlaster',
+  // },
+  // {
+  //   img: 'https://images.unsplash.com/photo-1589118949245-7d38baf380d6',
+  //   title: 'Bike',
+  //   author: '@southside_customs',
+  // },
 ];
 
  
