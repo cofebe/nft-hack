@@ -18,13 +18,12 @@ import Home from './components/Home.js';
 import Watch from './components/Watch.js';
 
 const streamPlaybackUrl = 'https://cdn.livepeer.com/hls/26cafzyg7i8yhgb5/index.m3u8';
-const CONTRACT_ADDRESSES = ['0x700433206dc6979784c4bdeb8c4c91ffb745e8b7'];
 
 function App() {
   const { loginProvider, signer, address, account, accounts, connect, isConnected, balances: coinBalances, network, networkType, networkId, getNetwork } = useWallet();
   const [mode, setMode] = useState('home');
   const contractAddress = '0x700433206Dc6979784c4bdeb8c4C91FFB745E8b7';
-
+  let streamCollection = [];
   useEffect(() => {
     if (!address || !signer) return;
     console.log('address: ', address)
@@ -36,13 +35,13 @@ function App() {
       console.log('boredApesContract: ', boredApesContract);
       const streamContract = nftHackContract({contractAddress: nftHackContractAddress, loginProvider: signer});
       const listOfStreams = await streamContract.getStreamArray();
-      const covalentResp = await getTransactions();
-      const covalentItems = covalentResp["data"]["items"];
-      const nftItemsOnly = getNftItemsOnly(covalentItems);
-      const ownedNftAddresses = getNftAddresses(nftItemsOnly);
-      const mappedStreamCollection = mapStreams(ownedNftAddresses, listOfStreams);
-      console.log('mappedStreams: ', mappedStreamCollection);
-
+      await getStreamCollection(listOfStreams);
+      console.log('streamCollection', streamCollection);
+      const interval = setInterval(async () => {
+        await getStreamCollection(listOfStreams);
+        console.log('mappedStreams: ', streamCollection);
+      }, 300000);
+      return () => clearInterval(interval);
     };
     init();
   }, [address, signer, account]);
@@ -60,6 +59,16 @@ function App() {
     if (!accounts?.length) return;
     console.log('accounts set!', accounts[0]);
   }, [accounts]);
+
+  async function getStreamCollection(listOfStreams) {
+    const covalentResp = await getTransactions();
+    const covalentItems = covalentResp["data"]["items"];
+    const nftItemsOnly = getNftItemsOnly(covalentItems);
+    const ownedNftAddresses = getNftAddresses(nftItemsOnly);
+    const collection = mapStreams(ownedNftAddresses, listOfStreams);
+    console.log('collection', collection);
+    setStreamCollection(collection);
+  }
 
   function mapStreams(personalNftAddresses, streams) {
     let mappedStreams = []
@@ -92,10 +101,14 @@ function App() {
       return item["type"] === "nft";
     });
   }
-  
+
   function getNftAddresses(items) {
     const addresses = items.map(item => item["contract_address"]);
     return addresses;
+  }
+
+  function setStreamCollection(collection) {
+    streamCollection = collection;
   }
 
   const networkInfoBox = () => {
