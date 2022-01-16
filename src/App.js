@@ -141,7 +141,7 @@ function App() {
           <p className="title">OnlyJpegs</p>
           {networkInfoBox()}
 
-            <div className='button'>
+            {/* <div className='button'>
               {mode === 'home' &&
                 <Button
                   variant='contained'
@@ -150,7 +150,7 @@ function App() {
                   }}
                 >Watch Stream</Button>
               }
-            </div>
+            </div> */}
         </header>
       }
       
@@ -171,7 +171,7 @@ function App() {
       {mode === 'watch' &&
         <Watch
           setMode={setMode}
-          watchUrl={'https://cdn.livepeer.com/hls/e673nk1hjtdheb8m/index.m3u8'}
+          watchUrl={watchUrl}
         />
       }
     </>
