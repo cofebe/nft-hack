@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import {
   ImageList,
@@ -13,6 +13,36 @@ import './Home.css';
 
 function Home({ setMode, streamData, }) {
   console.log('streamData: ', streamData);
+  const [collectionData, setCollectionData] = useState();
+
+  const getCollectionInfo = async contractAddress => {
+    // https://api.covalenthq.com/v1/80001/tokens/0x700433206Dc6979784c4bdeb8c4C91FFB745E8b7/nft_metadata/1/?quote-currency=USD&format=JSON&key=ckey_200682d8e34b495f9557869dacd
+    console.log('getCollectionInfo', contractAddress);
+    const apiAddressBase = 'https://api.covalenthq.com/v1/80001/tokens/';
+    const key = 'ckey_200682d8e34b495f9557869dacd';
+    const tokenId = 1; // @todo randomize?
+    const apiAddress = apiAddressBase + contractAddress + '/nft_metadata/' + tokenId + '/?quote-currency=USD&format=JSON&key=' + key;
+    const fetchResponse = await fetch(apiAddress);
+    const resJson = await fetchResponse.json();
+    return resJson;
+  };
+
+  // useEffect(() => {
+  //   if (!streamData || !streamData.length) return;
+  //   getCollectionInfo(streamData[0].stream.requiredCollection);
+  //   return;
+  //   console.log('getting collection data from covalent');
+  //   const getData = async () => {
+  //     var collectionData = await Promise.all(streamData.map(async data => {
+  //       return await getCollectionInfo(data.stream.requiredCollection);
+  //     }));
+  //     console.log('collectionData', collectionData);
+  //     setCollectionData(collectionData);
+  //   };
+  //   getData();
+  // }, [streamData]);
+
+
   return (
 
     <div className="contianer">
@@ -61,6 +91,7 @@ function Home({ setMode, streamData, }) {
                     <img
                       src={`${item.img}?w=248&fit=crop&auto=format`}
                       srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                      className='collectionImg'
                       alt={item.title}
                       loading="lazy"
                     />
@@ -97,9 +128,9 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const itemData = [
   {
-    img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-    title: 'Breakfast',
-    author: '@bkristastucchio',
+    img: 'https://lh3.googleusercontent.com/LyQ92IXACaGmF8g-m7VFesYl1mUncyu7jFuOzyo4fOPRvzrjnRRxhchwP3NRdTTWDJ-W0VUYvS1A76rJze3Sgb3uDUH5VHGrIM-O=w600',
+    title: 'PoganVerse Lands',
+    // author: '@bkristastucchio',
   },
   {
     img: 'https://images.unsplash.com/photo-1551782450-a2132b4ba21d',

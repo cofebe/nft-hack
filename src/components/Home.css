@@ -13,3 +13,8 @@
     background-color: rgba(255, 255, 255, 0.233);
     /* margin-top: 20px; */
 }
+
+.collectionImg {
+    object-fit: contain;
+    height: 400px;
+}
