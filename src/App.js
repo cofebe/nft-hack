@@ -92,8 +92,9 @@ function App() {
       <Grid container item
         sm={12}
         className='networkInfoBox'
-        justifyContent='center'
-        // direction='column'
+        justifyContent='right'
+        alignItems='flex-end'
+        direction='column'
         // spacing={6}
       >
         <Typography>Connected: {isConnected ? 'yes' : 'no'}</Typography>
@@ -111,36 +112,25 @@ function App() {
 
   return (
     <>
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p className="title">
-          NFT HACK
-        </p>
-        {networkInfoBox()}
-          {/* <video  src="https://cdn.livepeer.com/hls/3fc3wygcixo3kwps/index.m3u8" controls autoplay></video> */}
 
-          <div className='button'>
-            {mode === 'home' &&
-              <Button
-                variant='contained'
-                onClick={() => {
-                  setMode('stream');
-                }}
-              >Create Stream</Button>
-            }
-          </div>
+      {mode !== 'stream' &&
+        <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <p className="title">OnlyJpegs</p>
+          {networkInfoBox()}
 
-          <div className='button'>
-            {mode === 'home' &&
-              <Button
-                variant='contained'
-                onClick={() => {
-                  setMode('watch');
-                }}
-              >Watch Stream</Button>
-            }
-          </div>
-      </header>
+            <div className='button'>
+              {mode === 'home' &&
+                <Button
+                  variant='contained'
+                  onClick={() => {
+                    setMode('watch');
+                  }}
+                >Watch Stream</Button>
+              }
+            </div>
+        </header>
+      }
       
       {mode === 'home' &&
         <Home

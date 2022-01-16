@@ -8,6 +8,8 @@ import videojs from 'video.js';
 import {
   Button,
   Typography,
+  Grid,
+  TextField,
 } from '@mui/material';
 import './Stream.css';
 import { Client, isSupported } from '@livepeer/webrtmp-sdk';
@@ -25,6 +27,7 @@ function Stream({ setMode, }) {
 const { loginProvider, signer, address, account, accounts, connect, isConnected, balances: coinBalances, network, networkType, networkId, getNetwork } = useWallet();
   const [client, setClient] = useState();
   const [session, setSession] = useState();
+  const [streamName, setStreamName] = useState('');
 
   useEffect(() => {
     const newClient = new Client();
@@ -52,12 +55,14 @@ const { loginProvider, signer, address, account, accounts, connect, isConnected,
       return;
     }
     console.log("Config: ", config)
+    console.log('creating stream with name: ' + streamName);
     axios({
       method: 'get',
       url: 'http://localhost:3004',
       data: {
         // @todo allow user to set stream name
-        name: 'test_stream_' + (new Date()).toISOString(),
+        // name: 'test_stream_' + (new Date()).toISOString(),
+        name: streamName,
       }
     })
     .then(function (response) {
@@ -143,30 +148,60 @@ const { loginProvider, signer, address, account, accounts, connect, isConnected,
 
   return (
     <div className='root'>
-      <Typography>Stream</Typography>
+      {/* <Typography>Stream</Typography> */}
 
-      <Button
-        variant='contained'
-        onClick={async () => {
-          // const newSession = await startStream();
-          // setSession(newSession);
-          registerStream();
-        }}
-      >Start Stream</Button>
-
-      <Button
-        variant='contained'
-        onClick={() => {
-          try {
-            session.close();
-            console.log('stream session ended');
-          } catch (e) {
-            console.log(`error while closing stream session\n${e.stack}`);
-          }
-          setMode('home');
-        }}
-      >End Stream</Button>
-
+      <Grid container
+        direction='row'
+        className='topStreamBar'
+      >
+        <Grid item
+          sm={2}
+        >
+          {/* none */}
+        </Grid>
+        <Grid container item
+          className='streamTitleBar'
+          justifyContent="space-around"
+          alignItems="center"
+          // spacing={3}
+          sm={8}
+        >
+          <TextField
+            id="outlined-basic"
+            label="Stream Name"
+            variant="outlined"
+            className='streamNameInput'
+            onChange={event => setStreamName(event.target.value)}
+          />
+          <Button
+            variant='contained'
+            className='startStreamButton'
+            onClick={async () => {
+              // const newSession = await startStream();
+              // setSession(newSession);
+              registerStream();
+            }}
+          >Start Stream</Button>
+          <Button
+            variant='contained'
+            className='endStreamButton'
+            onClick={() => {
+              try {
+                session.close();
+                console.log('stream session ended');
+              } catch (e) {
+                console.log(`error while closing stream session\n${e.stack}`);
+              }
+              setMode('home');
+            }}
+          >End Stream</Button>
+        </Grid>
+        <Grid item
+          sm={2}
+        >
+          {/* none */}
+        </Grid>
+      </Grid>
       
       <video id='streamPreview' className='streamPreview' autoPlay={true}>
         {/* <source srcObject={localStream} type="application/x-mpegURL"/> */}
