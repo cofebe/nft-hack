@@ -1,5 +1,8 @@
 import axios from 'axios';
 import config from '../config';
+import nftHackContract from '../libs/nftHackContract';
+import { useWallet } from '../providers/WalletProvider.js';
+import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 import videojs from 'video.js';
 import {
@@ -9,11 +12,14 @@ import {
 import './Stream.css';
 import { Client, isSupported } from '@livepeer/webrtmp-sdk';
 
+import nftHack from '../evm/artifacts/contracts/nft-hack.sol/NFTHACK.json';
+
 if (!isSupported()) {
   alert('webrtmp-sdk is not currently supported on this browser');
 }
 
 function Stream({ setMode, }) {
+const { loginProvider, signer, address, account, accounts, connect, isConnected, balances: coinBalances, network, networkType, networkId, getNetwork } = useWallet();
   const [client, setClient] = useState();
   const [session, setSession] = useState();
 
@@ -49,19 +55,60 @@ function Stream({ setMode, }) {
       }
     })
       .then(function (response) {
-        console.log(response)
+        console.log(response.data)
+        startStream(response.data['streamKey'])
+        updateContract(response.data['playbackId'])
       })
       .catch(function (error) {
         console.log(error.toJSON());
       })
   }
-  // adding url to contract
-    // use wallet to gain signer
+
+  const updateContract = async (playbackId) => {
+    const url = `https://cdn.livepeer.com/hls/${playbackId}/index.m3u8`
+    const nftContractAddress = '0x35328203E1984Fb4325b4423e7d2564DE7A1bFA5';
+
+    const nftContract = nftHackContract({
+      contractAddress: nftContractAddress,
+      networkId: networkId,
+      loginProvider: signer
+    });
+
+    console.log('nftContract', nftContract);
+    const tx = await nftContract.createStream(nftContractAddress, url);
+    console.log('after tx', tx);
+    const receipt = await tx.wait();
+    console.log('after receipt', receipt);
+
+
+    const logs = getLogs(receipt, nftHack.abi);
+    console.log('logs', logs);
+    const streamCreated = logs.find(log => log.name === 'StreamCreated');
+    if (!streamCreated) {
+      throw new Error('nftHack StreamCreated failed');
+    } else {
+      console.log('StreamCreated!');
+    }
+  }
+
+  const getLogs = (receipt, abi) => {
+    let iface = new ethers.utils.Interface(abi);
+    var logs = receipt.logs.map(log => {
+      var parsedLog = null;
+      try {
+        parsedLog = iface.parseLog(log);
+      } catch (e) {
+        return null;
+      }
+      return parsedLog;
+    }).filter(log => log !== null);
+    return logs;
+  };
+
 
   // start streaming to livepeer
-  const startStream = async () => {
-    console.log('>>>>>>>>');
-    const streamKey = '26ca-kwqh-u71w-1e4u';
+  const startStream = async (streamKey) => {
+    console.log('Stream Key: ', streamKey);
 
     const stream = await navigator.mediaDevices.getUserMedia({
       video: true,
